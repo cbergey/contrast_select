@@ -4,64 +4,90 @@ function sendDataToServer(data) {
 
     // Send the data to the server
     fetch('http://147.182.195.234:3000/data', {
-    // fetch('http://localhost:3000/data', {
+        // fetch('http://localhost:3000/data', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(data)
     })
-    .then(response => response.text())
-    .then(data => {
-        console.log(data);
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
+        .then(response => response.text())
+        .then(data => {
+            console.log(data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
 }
 
 const jsPsych = initJsPsych({
     on_finish: function () {
         jsPsych.data.displayData('json');
 
-        const kid_info = jsPsych.data.get().filter({label: 'info'})["trials"][0].response
+        const response_text = ['few', 'some', 'most', 'almost all']
 
-        const p_banana = jsPsych.data.get().filter({label: 'p_banana'})["trials"][0].response
-        const p_cookie = jsPsych.data.get().filter({label: 'p_cookie'})["trials"][0].response
+        const kid_info = jsPsych.data.get().filter({ label: 'info' })["trials"][0].response
 
-        const data = jsPsych.data.get().filter({label: 'trial'})["trials"]
+        const p_banana = jsPsych.data.get().filter({ label: 'p_banana' })["trials"][0].response
+        const p_cookie = jsPsych.data.get().filter({ label: 'p_cookie' })["trials"][0].response
+
+        const data = jsPsych.data.get().filter({ label: 'trial' })["trials"]
 
         const data_clean = []
+        let currentDate = new Date();
+
+        // Get date and time
+        let year = currentDate.getFullYear();
+        let month = currentDate.getMonth() + 1;
+        let day = currentDate.getDate();
+        let hours = currentDate.getHours();
+        let minutes = currentDate.getMinutes();
+        let seconds = currentDate.getSeconds();
+
+        let curr_date = `${year}-${month}-${day}`;
+        let curr_time = `${hours}:${minutes}:${seconds}`;
 
         data_clean.push({
             ID: kid_info.ID,
             Age: kid_info.Age,
-            Object: 'banana',
+            object_name: 'banana',
+            object_number: 'na',
             trial_type: 'practice',
-            response: p_banana,
-            attr_category: 'n/a',
-            attr_name:'n/a',
+            response_index: p_banana,
+            response_text: response_text[p_banana],
+            attr_category: 'na',
+            attr_name: 'na',
+            date: curr_date,
+            time: curr_time
         })
 
         data_clean.push({
             ID: kid_info.ID,
             Age: kid_info.Age,
-            Object: 'cookie',
+            object_name: 'cookie',
+            object_number: 'na',
             trial_type: 'practice',
-            response: p_cookie,
-            attr_category: 'n/a',
-            attr_name:'n/a',
+            response_index: p_cookie,
+            response_text: response_text[p_cookie],
+            attr_category: 'na',
+            attr_name: 'na',
+            date: curr_date,
+            time: curr_time
         })
 
-        data.map((m)=>{
+        data.map((m) => {
             let tmp_obj = {}
             tmp_obj.ID = kid_info.ID,
             tmp_obj.Age = kid_info.Age,
-            tmp_obj.Object = m.Object
+            tmp_obj.object_name = m.object_name,
+            tmp_obj.object_number = m.object_number
             tmp_obj.attr_category = m.attr_category
             tmp_obj.attr_name = m.attr_name
             tmp_obj.trial_type = m.adj_n
-            tmp_obj.response = m.response
+            tmp_obj.response_index = m.response
+            tmp_obj.response_text = response_text[m.response]
+            tmp_obj.date = curr_date
+            tmp_obj.time = curr_time
 
             data_clean.push(tmp_obj)
         })
@@ -84,7 +110,8 @@ const info = {
     ],
     button_label: ["Begin"],
     data: {
-        label: 'info'}
+        label: 'info'
+    }
 };
 
 const intro = {
@@ -104,7 +131,7 @@ const practice_banana = {
         `<img src = "stim_images/prop_selection/banana_most.png" alt = 'banana_most' width="200px" height="200px"><p>most</p>`,
         `<img src = "stim_images/prop_selection/banana_almost_all.png" alt = 'banana_almostall' width="200px" height="200px"><p>almost all</p>`,
     ],
-    data:{
+    data: {
         label: 'p_banana'
     }
 };
@@ -118,7 +145,7 @@ const practice_cookie = {
         `<img src = "stim_images/prop_selection/cookie_most.png" alt = 'cookie_most' width="200px" height="200px"><p>most</p>`,
         `<img src = "stim_images/prop_selection/cookie_almost_all.png" alt = 'cookie_almostall' width="200px" height="200px"><p>almost all</p>`,
     ],
-    data:{
+    data: {
         label: 'p_cookie'
     }
 };
@@ -242,7 +269,8 @@ const create_select = (imgs, obj_index, attr_index, trial_type) => {
             return `<img src = "${i}" alt = 'cookie_few responsive' width="200px"><p>${result[index]}</p>`;
         }),
         data: {
-            Object: `${obj_names[obj_index]}`,
+            object_name: `${obj_names[obj_index]}`,
+            object_number: `${obj_index + 1}`,
             attr_category: `${attr[attr_index].category}`,
             attr_name: `${attr[attr_index].name}`,
             adj_n: `${trial_type}`,
