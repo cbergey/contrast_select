@@ -13,10 +13,39 @@ function sendDataToServer(data) {
     })
         .then(response => response.text())
         .then(data => {
+            alert('data stored successfully')
             console.log(data);
         })
         .catch(error => {
             console.error('Error:', error);
+            alert('An error occur when store data, data will be downloaded as json locally')
+            // Handle the fetch error, then download JSON locally as a fallback
+
+            // Example JSON data to download locally
+            const jsonString = JSON.stringify(data);
+
+            // Create a Blob from the JSON string
+            const blob = new Blob([jsonString], { type: "application/json" });
+
+            // Create an object URL from the Blob
+            const url = URL.createObjectURL(blob);
+
+            // Create a link element
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'data.json'; // Filename for the downloaded file
+
+            // Append the link to the document body
+            document.body.appendChild(link);
+
+            // Programmatically click the link to trigger the download
+            link.click();
+
+            // Remove the link from the document body
+            document.body.removeChild(link);
+
+            // Revoke the object URL to free up memory
+            URL.revokeObjectURL(url);
         });
 }
 
@@ -115,21 +144,24 @@ const info = {
 };
 
 const intro = {
-    type: jsPsychHtmlButtonResponse,
-    stimulus:
-        `<p>In this game, youll learn about some things from an alien planet.` +
-        ` But first, let's practice thinking about some things from planet Earth. Are you ready?</p>`,
+    type: jsPsychAudioButtonResponse,
+    stimulus: 'audio/intro.m4a',
+    prompt:
+        `<p>In this game, you'll learn about some things from an alien planet.` +
+        ` But first, let's practice thinking about some things from planet Earth. Are you ready? Press the green button to begin.</p>`,
     choices: ["Next"],
+    button_html: '<button style="background-color: green; color: white; border: none; font-size: 20px; padding: 15px 30px; cursor: pointer; border-radius: 10px;">%choice%</button>'
 };
 
 const practice_banana = {
-    type: jsPsychHtmlButtonResponse,
-    stimulus: `<p>Let's think about all of the bananas in the world. How many bananas do you think are yellow?</p>`,
+    type: jsPsychAudioButtonResponse,
+    stimulus: 'audio/banana_prompt.m4a',
+    prompt: `<p>Let's think about all of the bananas in the world. How many bananas do you think are yellow?</p>`,
     choices: [
-        `<img src = "stim_images/prop_selection/banana_few.png" alt = 'banana_few' width="200px" height="200px"><p>few</p>`,
-        `<img src = "stim_images/prop_selection/banana_some.png" alt = 'banana_some' width="200px" height="200px"><p>some</p>`,
-        `<img src = "stim_images/prop_selection/banana_most.png" alt = 'banana_most' width="200px" height="200px"><p>most</p>`,
-        `<img src = "stim_images/prop_selection/banana_almost_all.png" alt = 'banana_almostall' width="200px" height="200px"><p>almost all</p>`,
+        `<img src = "stim_images/prop_selection/banana_few.PNG" alt = 'banana_few' width="200px" height="200px"><p>few</p>`,
+        `<img src = "stim_images/prop_selection/banana_some.PNG" alt = 'banana_some' width="200px" height="200px"><p>some</p>`,
+        `<img src = "stim_images/prop_selection/banana_most.PNG" alt = 'banana_most' width="200px" height="200px"><p>most</p>`,
+        `<img src = "stim_images/prop_selection/banana_almost_all.PNG" alt = 'banana_almostall' width="200px" height="200px"><p>almost all</p>`,
     ],
     data: {
         label: 'p_banana'
@@ -137,56 +169,148 @@ const practice_banana = {
 };
 
 const practice_cookie = {
-    type: jsPsychHtmlButtonResponse,
-    stimulus: `<p>Let's think about all of the cookies in the world. How many cookies do you think are square?</p>`,
+    type: jsPsychAudioButtonResponse,
+    stimulus: 'audio/cookie_prompt.m4a',
+    prompt: `<p>Let's think about all of the cookies in the world. How many cookies do you think are square?</p>`,
     choices: [
-        `<img src = "stim_images/prop_selection/cookie_few.png" alt = 'cookie_few' width="200px" height="200px"><p>few</p>`,
-        `<img src = "stim_images/prop_selection/cookie_some.png" alt = 'cookie_some' width="200px" height="200px"><p>some</p>`,
-        `<img src = "stim_images/prop_selection/cookie_most.png" alt = 'cookie_most' width="200px" height="200px"><p>most</p>`,
-        `<img src = "stim_images/prop_selection/cookie_almost_all.png" alt = 'cookie_almostall' width="200px" height="200px"><p>almost all</p>`,
+        `<img src = "stim_images/prop_selection/cookie_few.PNG" alt = 'cookie_few' width="200px" height="200px"><p>few</p>`,
+        `<img src = "stim_images/prop_selection/cookie_some.PNG" alt = 'cookie_some' width="200px" height="200px"><p>some</p>`,
+        `<img src = "stim_images/prop_selection/cookie_most.PNG" alt = 'cookie_most' width="200px" height="200px"><p>most</p>`,
+        `<img src = "stim_images/prop_selection/cookie_almost_all.PNG" alt = 'cookie_almostall' width="200px" height="200px"><p>almost all</p>`,
     ],
     data: {
         label: 'p_cookie'
     }
 };
 const blip_intro = {
-    on_start: function (trail) {
-        const audio = new Audio("sound/tmp_sound.mp3");
-        audio.addEventListener("error", function (event) {
-            console.error("Error loading audio file:", event);
-        });
+    // on_start: function (trail) {
+    //     const audio = new Audio("sound/tmp_sound.mp3");
+    //     audio.addEventListener("error", function (event) {
+    //         console.error("Error loading audio file:", event);
+    //     });
 
-        audio
-            .play()
-            .then(() => {
-                console.log("Audio is playing");
-            })
-            .catch((error) => {
-                console.error("Error playing audio:", error);
-            });
-    },
-    type: jsPsychHtmlButtonResponse,
-    stimulus: `<p>In this game, you'll learn about some things from an alien planet.
+    //     audio
+    //         .play()
+    //         .then(() => {
+    //             console.log("Audio is playing");
+    //         })
+    //         .catch((error) => {
+    //             console.error("Error playing audio:", error);
+    //         });
+    // },
+    type: jsPsychAudioButtonResponseIntro,
+    stimulus: "audio/blip_prompt.m4a",
+    greeting: "audio/greeting.m4a",
+    prompt: `<p>In this game, you'll learn about some things from an alien planet.
 Blip the alien will show and talk about some things on her planet, and you'll make guesses about what those things are usually like.
-Can you say hi to Blip?</p>
-    <div class = "blip-intro-grid">
-        <div></div>
-        <img src="stim_images/alien1.png" class="responsive max-width" alt="Alien Image" >
-        <div class="image-container responsive">
-            <img src="stim_images/speechbubble.jpg" alt="Speech Bubble" class="responsive">
-            <div class="overlay-text" id="overlay-text">
-                "Hi, I'm Blip!"
-            </div>
+Tap on Blip to start learning what's on Blip's planet.</p>`,
+    choices: [`<div class = "blip-intro-grid">
+    <div></div>
+    <img src="stim_images/alien1.png" class="responsive max-width" alt="Alien Image" >
+    <div class="image-container responsive">
+        <img src="stim_images/speechbubble.jpg" alt="Speech Bubble" class="responsive">
+        <div class="overlay-text" id="overlay-text">
+            "Hi, I'm Blip!"
         </div>
-        <div></div>
-</div>`,
-    choices: ["Next"],
+    </div>
+    <div></div>
+</div>`],
+// button_html: '<button class = "jspsych-btn" style = "border: none"></button>'
 };
 
 const other_resources = [] // stores all other resources to preload
 const objs = []; // stores img path for all the stimulus
 const props = []; // stores img path for all the options
 const result = ["few", "some", "most", "almost_all"];
+
+const audioPaths = [
+    "audio/wug.m4a",
+    "audio/banana_prompt.m4a",
+    "audio/blicket 2.m4a",
+    "audio/blicket_blue_prompt.m4a",
+    "audio/blicket_red_prompt.m4a",
+    "audio/blicket_spotted_prompt.m4a",
+    "audio/blicket_striped_prompt.m4a",
+    "audio/blicket_tall_prompt.m4a",
+    "audio/blicket_wide_prompt.m4a",
+    "audio/blicket.m4a",
+    "audio/blip_prompt.m4a",
+    "audio/blue_blicket.m4a",
+    "audio/blue_gade.m4a",
+    "audio/blue_modi.m4a",
+    "audio/blue_sprock.m4a",
+    "audio/blue_toma.m4a",
+    "audio/blue_wug.m4a",
+    "audio/cookie_prompt.m4a",
+    "audio/gade_blue_prompt.m4a",
+    "audio/gade_red_prompt.m4a",
+    "audio/gade_spotted_prompt.m4a",
+    "audio/gade_striped_prompt.m4a",
+    "audio/gade_tall_prompt.m4a",
+    "audio/gade_wide_prompt.m4a",
+    "audio/gade.m4a",
+    "audio/greeting.m4a",
+    "audio/intro.m4a",
+    "audio/modi_blue_prompt.m4a",
+    "audio/modi_red_prompt.m4a",
+    "audio/modi_spotted_prompt.m4a",
+    "audio/modi_striped_prompt.m4a",
+    "audio/modi_tall_prompt.m4a",
+    "audio/modi_wide_prompt.m4a",
+    "audio/modi.m4a",
+    "audio/red_blicket.m4a",
+    "audio/red_gade.m4a",
+    "audio/red_modi.m4a",
+    "audio/red_sprock.m4a",
+    "audio/red_toma.m4a",
+    "audio/red_wug.m4a",
+    "audio/see1.m4a",
+    "audio/see2.m4a",
+    "audio/spotted_blicket.m4a",
+    "audio/spotted_gade.m4a",
+    "audio/spotted_modi.m4a",
+    "audio/spotted_sprock.m4a",
+    "audio/spotted_toma.m4a",
+    "audio/spotted_wug.m4a",
+    "audio/sprock_blue_prompt.m4a",
+    "audio/sprock_red_prompt.m4a",
+    "audio/sprock_spotted_prompt.m4a",
+    "audio/sprock_striped_prompt.m4a",
+    "audio/sprock_tall_prompt.m4a",
+    "audio/sprock_wide_prompt.m4a",
+    "audio/sprock.m4a",
+    "audio/striped_blicket.m4a",
+    "audio/striped_gade.m4a",
+    "audio/striped_modi.m4a",
+    "audio/striped_sprock.m4a",
+    "audio/striped_toma.m4a",
+    "audio/striped_wug.m4a",
+    "audio/tall_blicket.m4a",
+    "audio/tall_gade.m4a",
+    "audio/tall_modi.m4a",
+    "audio/tall_sprock.m4a",
+    "audio/tall_toma.m4a",
+    "audio/tall_wug.m4a",
+    "audio/toma_blue_prompt.m4a",
+    "audio/toma_red_prompt.m4a",
+    "audio/toma_spotted_prompt.m4a",
+    "audio/toma_striped_prompt.m4a",
+    "audio/toma_tall_prompt.m4a",
+    "audio/toma_wide_prompt.m4a",
+    "audio/toma.m4a",
+    "audio/wide_blicket.m4a",
+    "audio/wide_gade.m4a",
+    "audio/wide_modi.m4a",
+    "audio/wide_sprock.m4a",
+    "audio/wide_toma.m4a",
+    "audio/wide_wug.m4a",
+    "audio/wug_blue_prompt.m4a",
+    "audio/wug_red_prompt.m4a",
+    "audio/wug_spotted_prompt.m4a",
+    "audio/wug_striped_prompt.m4a",
+    "audio/wug_tall_prompt.m4a",
+    "audio/wug_wide_prompt.m4a"
+];
 
 const attr = [
     { name: "blue", category: "color", index: 0 },
@@ -220,18 +344,19 @@ for (let i = 1; i <= 6; i++) {
     objs.push(obj);
     props.push(prop);
 }
+
 other_resources.push(
     [
         'stim_images/alien1.png',
         'stim_images/speechbubble.jpg',
-        "stim_images/prop_selection/banana_few.png",
-        "stim_images/prop_selection/banana_some.png",
-        "stim_images/prop_selection/banana_most.png",
-        "stim_images/prop_selection/banana_almost_all.png",
-        "stim_images/prop_selection/cookie_few.png",
-        "stim_images/prop_selection/cookie_some.png",
-        "stim_images/prop_selection/cookie_most.png",
-        "stim_images/prop_selection/cookie_almost_all.png",
+        "stim_images/prop_selection/banana_few.PNG",
+        "stim_images/prop_selection/banana_some.PNG",
+        "stim_images/prop_selection/banana_most.PNG",
+        "stim_images/prop_selection/banana_almost_all.PNG",
+        "stim_images/prop_selection/cookie_few.PNG",
+        "stim_images/prop_selection/cookie_some.PNG",
+        "stim_images/prop_selection/cookie_most.PNG",
+        "stim_images/prop_selection/cookie_almost_all.PNG",
     ]
 )
 
@@ -242,13 +367,24 @@ console.log(props);
  * @param {Array} imgs
  * @returns jspsych preload objs
  */
-const preload_res = (imgs) => {
+const preload_imgs = (imgs) => {
     return {
         type: jsPsychPreload,
         images: imgs,
         show_detailed_errors: true,
         auto_preload: false,
-        message: 'Loading, please wait...',
+        message: 'Loading images, please wait...',
+        show_progress_bar: true,
+    };
+};
+
+const preload_audio = (audioFiles) => {
+    return {
+        type: jsPsychPreload,
+        audio: audioFiles,
+        show_detailed_errors: true,
+        auto_preload: true,
+        message: 'Loading audio, please wait...',
         show_progress_bar: true,
     };
 };
@@ -263,8 +399,9 @@ const preload_res = (imgs) => {
  */
 const create_select = (imgs, obj_index, attr_index, trial_type) => {
     return {
-        type: jsPsychHtmlButtonResponse,
-        stimulus: `<p>Let's think about all of the ${obj_names[obj_index]}s on this planet. How many ${obj_names[obj_index]}s do you think are ${attr[attr_index].name}?</p>`,
+        type: jsPsychAudioButtonResponse,
+        stimulus: `audio/${obj_names[obj_index]}_${attr[attr_index].name}_prompt.m4a`,
+        prompt: `<p>Let's think about all of the ${obj_names[obj_index]}s on this planet. How many ${obj_names[obj_index]}s do you think are ${attr[attr_index].name}?</p>`,
         choices: imgs.map((i, index) => {
             return `<img src = "${i}" alt = 'cookie_few responsive' width="200px"><p>${result[index]}</p>`;
         }),
@@ -358,7 +495,7 @@ const create_muti_image = (
 
                     return statement;
                 },
-                trial_duration: 100,
+                trial_duration: 3000,
                 on_start: function (trial) {
                     // console.log('triggered')
                     const audio = new Audio(jsPsych.timelineVariable("audio"));
@@ -385,9 +522,10 @@ const create_muti_image = (
 };
 
 // timeline.push(preload_data);
-timeline.push(preload_res(other_resources))
-timeline.push(preload_res(props))
-timeline.push(preload_res(objs))
+timeline.push(preload_imgs(other_resources))
+timeline.push(preload_imgs(props))
+timeline.push(preload_imgs(objs))
+timeline.push(preload_audio(audioPaths))
 timeline.push(info)
 timeline.push(intro)
 timeline.push(practice_banana)
@@ -419,37 +557,6 @@ while (numObj >= 0) {
     let rand1 = Math.floor(Math.random() * 2);
     let rand2 = 1 - rand1;
 
-    let frames = [
-        {
-            images: [attr_img[rand1]],
-            audio: "sound/tmp_sound.mp3",
-            tran_pass: false,
-            statement_pass: false,
-            show_image: false,
-        },
-        {
-            images: [attr_img[rand1]],
-            audio: "sound/tmp_sound.mp3",
-            tran_pass: false,
-            statement_pass: false,
-            show_image: true,
-        },
-        {
-            images: [attr_img[rand2]],
-            audio: "sound/tmp_sound.mp3",
-            tran_pass: true,
-            statement_pass: false,
-            show_image: false,
-        },
-        {
-            images: [attr_img[rand2]],
-            audio: "sound/tmp_sound.mp3",
-            tran_pass: false,
-            statement_pass: true,
-            show_image: true,
-        },
-    ];
-
     let trial_type = jsPsych.randomization.sampleWithReplacement(
         ["n", "adj"],
         1
@@ -462,12 +569,47 @@ while (numObj >= 0) {
     if (trial_type === "adj" && adj_trial_set.has(curr_attr.category)) {
         trial_type = "n";
     }
-
+    let audio1, audio2
     if (trial_type === "adj") {
         adj_trial_set.add(curr_attr.category);
+        audio1 = `${rand1 === 0 ? `audio/${obj_names[obj_index]}.m4a`: `audio/${curr_attr.name}_${obj_names[obj_index]}.m4a`}`
+        audio2 = `${rand2 === 0 ? `audio/${obj_names[obj_index]}.m4a`: `audio/${curr_attr.name}_${obj_names[obj_index]}.m4a`}`
     } else {
         n_trial_set.add(curr_attr.category);
+        audio1 = `audio/${obj_names[obj_index]}.m4a`
+        audio2 = `audio/${obj_names[obj_index]}.m4a`
     }
+
+    let frames = [
+        {
+            images: [attr_img[rand1]],
+            audio: "audio/see1.m4a",
+            tran_pass: false,
+            statement_pass: false,
+            show_image: false,
+        },
+        {
+            images: [attr_img[rand1]],
+            audio: audio1,
+            tran_pass: false,
+            statement_pass: false,
+            show_image: true,
+        },
+        {
+            images: [attr_img[rand2]],
+            audio: "audio/see2.m4a",
+            tran_pass: true,
+            statement_pass: false,
+            show_image: false,
+        },
+        {
+            images: [attr_img[rand2]],
+            audio: audio2,
+            tran_pass: false,
+            statement_pass: true,
+            show_image: true,
+        },
+    ];
 
     // logging info about each trial
     console.log(`Trial_${5 - numObj}-------------------`);
