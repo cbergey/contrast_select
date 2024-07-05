@@ -135,7 +135,7 @@ const info = {
     preamble: "Enter relevant information below:",
     questions: [
         { prompt: "Subject ID:", name: "ID", required: true },
-        { prompt: "Subject Age", name: "Age", required: true },
+        { prompt: "Subject Age:", name: "Age", required: true },
     ],
     button_label: ["Begin"],
     data: {
@@ -437,8 +437,9 @@ const create_muti_image = (
     var res = {
         timeline: [
             {
-                type: jsPsychHtmlKeyboardResponse,
-                stimulus: function () {
+                type: jsPsychAudioButtonResponseAnime,
+                stimulus: jsPsych.timelineVariable("audio"),
+                prompt: function () {
                     var current_frame = jsPsych.timelineVariable("images");
                     let show_image = jsPsych.timelineVariable("show_image");
 
@@ -495,25 +496,26 @@ const create_muti_image = (
 
                     return statement;
                 },
+                choices: [],
                 trial_duration: 3000,
-                on_start: function (trial) {
-                    // console.log('triggered')
-                    const audio = new Audio(jsPsych.timelineVariable("audio"));
-                    audio.addEventListener("error", function (event) {
-                        console.error("Error loading audio file:", event);
-                    });
+                // on_start: function (trial) {
+                //     // console.log('triggered')
+                //     const audio = new Audio(jsPsych.timelineVariable("audio"));
+                //     audio.addEventListener("error", function (event) {
+                //         console.error("Error loading audio file:", event);
+                //     });
 
-                    //   trial.trial_duration = audio.duration * 10000 + 5000;
+                //     //   trial.trial_duration = audio.duration * 10000 + 5000;
 
-                    audio
-                        .play()
-                        .then(() => {
-                            console.log("Audio is playing");
-                        })
-                        .catch((error) => {
-                            console.error("Error playing audio:", error);
-                        });
-                },
+                //     audio
+                //         .play()
+                //         .then(() => {
+                //             console.log("Audio is playing");
+                //         })
+                //         .catch((error) => {
+                //             console.error("Error playing audio:", error);
+                //         });
+                // },
             },
         ],
         timeline_variables: frames,
