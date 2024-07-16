@@ -52,7 +52,7 @@ var jsPsychAudioButtonResponseAnime = (function (jspsych) {
           response_ends_trial: {
               type: jspsych.ParameterType.BOOL,
               pretty_name: "Response ends trial",
-              default: true,
+              default: false,
           },
           /** If true, then the trial will end as soon as the audio file finishes playing. */
           trial_ends_after_audio: {
