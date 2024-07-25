@@ -3,8 +3,8 @@ function sendDataToServer(data) {
     // const csvData = jsPsych.data.get().csv();
 
     // Send the data to the server
-    // fetch('http://147.182.195.234:3000/data', {
-        fetch('http://localhost:3000/data/social', {
+    fetch('http://147.182.195.234:3003/data/social', {
+        // fetch('http://localhost:3000/data/social', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -244,7 +244,7 @@ var finish_screen = {
             tmp_obj.ID = kid_info.ID,
             tmp_obj.Age = kid_info.Age,
             tmp_obj.object_name = m.object_name,
-            tmp_obj.trial_type = m.trial_type,
+            tmp_obj.trial_type = m.adj_n,
             tmp_obj.hibble_gender = m.hibble_gender,
             tmp_obj.response_index = m.response
             tmp_obj.response_text = response_text[m.response]
@@ -297,7 +297,7 @@ const create_select = (obj, trial_type, gender) => {
         }),
         data: {
             object_name: `${obj.name}`,
-            trial_type: `${trial_type === 'n' ? 'no adj' : 'adj'}`,
+            adj_n: `${trial_type === 'n' ? 'no adj' : 'adj'}`,
             hibble_gender: `${gender === 'He' ? 'male' : 'female'}`,
             label: `trial`
         }
