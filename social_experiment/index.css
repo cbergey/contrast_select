@@ -53,7 +53,7 @@
 
 .grid-container {
     display: grid;
-    grid-template-columns: 25% 25% 25% auto;
+    grid-template-columns: 20% 30% 30% auto;
     text-align: center;
     align-items: center;
 }

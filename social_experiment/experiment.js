@@ -153,10 +153,11 @@ const intro = {
     button_html: '<button style="background-color: green; color: white; border: none; font-size: 20px; padding: 30px 30px; cursor: pointer; border-radius: 10px;">%choice%</button>'
 };
 
+//<p>These are hibbles. They live together in Hibble Valley. Let’s learn about some hibbles!</p>
 const hibble_intro = {
     type: jsPsychAudioButtonResponse,
     stimulus: `${audio_path}/hibble_intro.m4a`,
-    prompt: `<p>These are hibbles. They live together in Hibble Valley. Let’s learn about some hibbles!</p>
+    prompt: `
     <img src = "${img_path}/hibble_intro.png" alt = '${img_path}/hibble_intro.png' width="800vw">`,
     choices: [],
     trial_ends_after_audio: true,
@@ -247,14 +248,12 @@ var finish_screen = {
             tmp_obj.trial_type = m.adj_n,
             tmp_obj.hibble_gender = m.hibble_gender,
             tmp_obj.response_index = m.response
-            tmp_obj.response_text = response_text[m.response]
+            // tmp_obj.response_text = response_text[m.response]
             tmp_obj.date = curr_date
             tmp_obj.time = curr_time
 
             data_clean.push(tmp_obj)
         })
-
-
         console.log(data_clean)
 
         console.log(data)
@@ -291,13 +290,13 @@ const create_select = (obj, trial_type, gender) => {
     return {
         type: jsPsychAudioButtonResponse,
         stimulus: `${audio_path}/${obj.name}_question.m4a`,
-        prompt: `<p>${prompt}</p>`,
+        // prompt: `<p>${prompt}</p>`,
         choices: selection.map((i, index) => {
             return `<img src = "${img_path}/${i}" alt = '${i}' width="200px">`;
         }),
         data: {
             object_name: `${obj.name}`,
-            adj_n: `${trial_type === 'n' ? 'no adj' : 'adj'}`,
+            adj_n: `${trial_type ? 'adj' : 'no adj'}`,
             hibble_gender: `${gender === 'He' ? 'male' : 'female'}`,
             label: `trial`
         }
@@ -330,7 +329,7 @@ const create_hibble_image = (obj, trial_type, gender, hibble_img) => {
     return {
         type: jsPsychAudioButtonResponse,
         stimulus: audio,
-        prompt: `<p>${prompt}</p>
+        prompt: `
         <div class="grid-container">
             <div></div>
             <img src='${img_path}/${hibble_img}.png' class="responsive" alt="${hibble_img}">
@@ -381,7 +380,7 @@ while (numObj >= 0) {
             number_adj++
         }
         else {
-            trial_type = "n"
+            trial_type = false
             number_n++
         }
     } else {
@@ -389,7 +388,7 @@ while (numObj >= 0) {
             number_n++
         }
         else {
-            trial_type = "adj"
+            trial_type = true
             number_adj++
         }
     }
@@ -417,6 +416,9 @@ while (numObj >= 0) {
     } else {
         hibble_img = `hibble_boy_${boys[number_boy-1]}`
     }
+    console.log('obj: ' + obj.name)
+    console.log('gender: ' + gender)
+    console.log('trial_type: ' + trial_type)
 
     timeline.push(create_hibble_image(obj, trial_type, gender, hibble_img))
     timeline.push(create_select(obj, trial_type, gender))
