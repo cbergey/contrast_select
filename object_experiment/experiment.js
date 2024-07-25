@@ -49,86 +49,16 @@ function sendDataToServer(data) {
         });
 }
 
-const jsPsych = initJsPsych({
-    // on_finish: function () {
-    //     // jsPsych.data.displayData('json');
-
-    //     const response_text = ['few', 'some', 'most', 'almost all']
-
-    //     const kid_info = jsPsych.data.get().filter({ label: 'info' })["trials"][0].response
-
-    //     const p_banana = jsPsych.data.get().filter({ label: 'p_banana' })["trials"][0].response
-    //     const p_cookie = jsPsych.data.get().filter({ label: 'p_cookie' })["trials"][0].response
-
-    //     const data = jsPsych.data.get().filter({ label: 'trial' })["trials"]
-
-    //     const data_clean = []
-    //     let currentDate = new Date();
-
-    //     // Get date and time
-    //     let year = currentDate.getFullYear();
-    //     let month = currentDate.getMonth() + 1;
-    //     let day = currentDate.getDate();
-    //     let hours = currentDate.getHours();
-    //     let minutes = currentDate.getMinutes();
-    //     let seconds = currentDate.getSeconds();
-
-    //     let curr_date = `${year}-${month}-${day}`;
-    //     let curr_time = `${hours}:${minutes}:${seconds}`;
-
-    //     data_clean.push({
-    //         ID: kid_info.ID,
-    //         Age: kid_info.Age,
-    //         object_name: 'banana',
-    //         object_number: 'na',
-    //         trial_type: 'practice',
-    //         response_index: p_banana,
-    //         response_text: response_text[p_banana],
-    //         attr_category: 'na',
-    //         attr_name: 'na',
-    //         date: curr_date,
-    //         time: curr_time
-    //     })
-
-    //     data_clean.push({
-    //         ID: kid_info.ID,
-    //         Age: kid_info.Age,
-    //         object_name: 'cookie',
-    //         object_number: 'na',
-    //         trial_type: 'practice',
-    //         response_index: p_cookie,
-    //         response_text: response_text[p_cookie],
-    //         attr_category: 'na',
-    //         attr_name: 'na',
-    //         date: curr_date,
-    //         time: curr_time
-    //     })
-
-    //     data.map((m) => {
-    //         let tmp_obj = {}
-    //         tmp_obj.ID = kid_info.ID,
-    //         tmp_obj.Age = kid_info.Age,
-    //         tmp_obj.object_name = m.object_name,
-    //         tmp_obj.object_number = m.object_number
-    //         tmp_obj.attr_category = m.attr_category
-    //         tmp_obj.attr_name = m.attr_name
-    //         tmp_obj.trial_type = m.adj_n
-    //         tmp_obj.response_index = m.response
-    //         tmp_obj.response_text = response_text[m.response]
-    //         tmp_obj.date = curr_date
-    //         tmp_obj.time = curr_time
-
-    //         data_clean.push(tmp_obj)
-    //     })
-
-    //     console.log(data_clean)
-
-    //     console.log(data)
-    //     sendDataToServer(data_clean)
-    // },
-});
+const jsPsych = initJsPsych({});
 
 const timeline = [];
+
+// const img_path = 'object_experiment/stim_images'
+// const audio_path = 'object_experiment/audio'
+
+const img_path = '../object_experiment/stim_images'
+const audio_path = '../object_experiment/audio'
+
 
 const info = {
     type: jsPsychSurveyText,
@@ -145,7 +75,7 @@ const info = {
 
 const intro = {
     type: jsPsychAudioButtonResponse,
-    stimulus: 'audio/intro.m4a',
+    stimulus: `${audio_path}/intro.m4a`,
     prompt:
         `<p>In this game, you'll learn about some things from an alien planet.` +
         ` But first, let's practice thinking about some things from planet Earth. Are you ready? Press the green button to begin.</p>`,
@@ -155,13 +85,13 @@ const intro = {
 
 const practice_banana = {
     type: jsPsychAudioButtonResponse,
-    stimulus: 'audio/banana_prompt.m4a',
+    stimulus: `${audio_path}/banana_prompt.m4a`,
     prompt: `<p>Let's think about all of the bananas in the world. How many bananas do you think are yellow?</p>`,
     choices: [
-        `<img src = "stim_images/prop_selection/banana_few.PNG" alt = 'banana_few' width="200px" height="200px">`,
-        `<img src = "stim_images/prop_selection/banana_some.PNG" alt = 'banana_some' width="200px" height="200px">`,
-        `<img src = "stim_images/prop_selection/banana_most.PNG" alt = 'banana_most' width="200px" height="200px">`,
-        `<img src = "stim_images/prop_selection/banana_almost_all.PNG" alt = 'banana_almostall' width="200px" height="200px">`,
+        `<img src = "${img_path}/prop_selection/banana_few.PNG" alt = 'banana_few' width="200px" height="200px">`,
+        `<img src = "${img_path}/prop_selection/banana_some.PNG" alt = 'banana_some' width="200px" height="200px">`,
+        `<img src = "${img_path}/prop_selection/banana_most.PNG" alt = 'banana_most' width="200px" height="200px">`,
+        `<img src = "${img_path}/prop_selection/banana_almost_all.PNG" alt = 'banana_almostall' width="200px" height="200px">`,
     ],
     data: {
         label: 'p_banana'
@@ -170,52 +100,36 @@ const practice_banana = {
 
 const practice_cookie = {
     type: jsPsychAudioButtonResponse,
-    stimulus: 'audio/cookie_prompt.m4a',
+    stimulus: `${audio_path}/cookie_prompt.m4a`,
     prompt: `<p>Let's think about all of the cookies in the world. How many cookies do you think are square?</p>`,
     choices: [
-        `<img src = "stim_images/prop_selection/cookie_few.PNG" alt = 'cookie_few' width="200px" height="200px">`,
-        `<img src = "stim_images/prop_selection/cookie_some.PNG" alt = 'cookie_some' width="200px" height="200px">`,
-        `<img src = "stim_images/prop_selection/cookie_most.PNG" alt = 'cookie_most' width="200px" height="200px">`,
-        `<img src = "stim_images/prop_selection/cookie_almost_all.PNG" alt = 'cookie_almostall' width="200px" height="200px">`,
+        `<img src = "${img_path}/prop_selection/cookie_few.PNG" alt = 'cookie_few' width="200px" height="200px">`,
+        `<img src = "${img_path}/prop_selection/cookie_some.PNG" alt = 'cookie_some' width="200px" height="200px">`,
+        `<img src = "${img_path}/prop_selection/cookie_most.PNG" alt = 'cookie_most' width="200px" height="200px">`,
+        `<img src = "${img_path}/prop_selection/cookie_almost_all.PNG" alt = 'cookie_almostall' width="200px" height="200px">`,
     ],
     data: {
         label: 'p_cookie'
     }
 };
 const blip_intro = {
-    // on_start: function (trail) {
-    //     const audio = new Audio("sound/tmp_sound.mp3");
-    //     audio.addEventListener("error", function (event) {
-    //         console.error("Error loading audio file:", event);
-    //     });
-
-    //     audio
-    //         .play()
-    //         .then(() => {
-    //             console.log("Audio is playing");
-    //         })
-    //         .catch((error) => {
-    //             console.error("Error playing audio:", error);
-    //         });
-    // },
     type: jsPsychAudioButtonResponseIntro,
-    stimulus: "audio/blip_prompt.m4a",
-    greeting: "audio/greeting.m4a",
+    stimulus: `${audio_path}/blip_prompt.m4a`,
+    greeting: `${audio_path}/greeting.m4a`,
     prompt: `<p>In this game, you'll learn about some things from an alien planet.
 Blip the alien will show and talk about some things on her planet, and you'll make guesses about what those things are usually like.
 Tap on Blip to start learning about what's on Blip's planet.</p>`,
     choices: [`<div class = "blip-intro-grid">
     <div></div>
-    <img src="stim_images/alien1.png" class="responsive max-width" alt="Alien Image" >
+    <img src="${img_path}/alien1.png" class="responsive max-width" alt="Alien Image" >
     <div class="image-container responsive">
-        <img src="stim_images/speechbubble.jpg" alt="Speech Bubble" class="responsive">
+        <img src="${img_path}/speechbubble.jpg" alt="Speech Bubble" class="responsive">
         <div class="overlay-text" id="overlay-text">
             "Hi, I'm Blip!"
         </div>
     </div>
     <div></div>
 </div>`],
-// button_html: '<button class = "jspsych-btn" style = "border: none"></button>'
 };
 
 const other_resources = [] // stores all other resources to preload
@@ -224,93 +138,93 @@ const props = []; // stores img path for all the options
 const result = ["few", "some", "most", "almost_all"];
 
 const audioPaths = [
-    "audio/wug.m4a",
-    "audio/banana_prompt.m4a",
-    "audio/blicket 2.m4a",
-    "audio/blicket_blue_prompt.m4a",
-    "audio/blicket_red_prompt.m4a",
-    "audio/blicket_spotted_prompt.m4a",
-    "audio/blicket_striped_prompt.m4a",
-    "audio/blicket_tall_prompt.m4a",
-    "audio/blicket_wide_prompt.m4a",
-    "audio/blicket.m4a",
-    "audio/blip_prompt.m4a",
-    "audio/blue_blicket.m4a",
-    "audio/blue_gade.m4a",
-    "audio/blue_modi.m4a",
-    "audio/blue_sprock.m4a",
-    "audio/blue_toma.m4a",
-    "audio/blue_wug.m4a",
-    "audio/cookie_prompt.m4a",
-    "audio/gade_blue_prompt.m4a",
-    "audio/gade_red_prompt.m4a",
-    "audio/gade_spotted_prompt.m4a",
-    "audio/gade_striped_prompt.m4a",
-    "audio/gade_tall_prompt.m4a",
-    "audio/gade_wide_prompt.m4a",
-    "audio/gade.m4a",
-    "audio/greeting.m4a",
-    "audio/intro.m4a",
-    "audio/modi_blue_prompt.m4a",
-    "audio/modi_red_prompt.m4a",
-    "audio/modi_spotted_prompt.m4a",
-    "audio/modi_striped_prompt.m4a",
-    "audio/modi_tall_prompt.m4a",
-    "audio/modi_wide_prompt.m4a",
-    "audio/modi.m4a",
-    "audio/red_blicket.m4a",
-    "audio/red_gade.m4a",
-    "audio/red_modi.m4a",
-    "audio/red_sprock.m4a",
-    "audio/red_toma.m4a",
-    "audio/red_wug.m4a",
-    "audio/see1.m4a",
-    "audio/see2.m4a",
-    "audio/spotted_blicket.m4a",
-    "audio/spotted_gade.m4a",
-    "audio/spotted_modi.m4a",
-    "audio/spotted_sprock.m4a",
-    "audio/spotted_toma.m4a",
-    "audio/spotted_wug.m4a",
-    "audio/sprock_blue_prompt.m4a",
-    "audio/sprock_red_prompt.m4a",
-    "audio/sprock_spotted_prompt.m4a",
-    "audio/sprock_striped_prompt.m4a",
-    "audio/sprock_tall_prompt.m4a",
-    "audio/sprock_wide_prompt.m4a",
-    "audio/sprock.m4a",
-    "audio/striped_blicket.m4a",
-    "audio/striped_gade.m4a",
-    "audio/striped_modi.m4a",
-    "audio/striped_sprock.m4a",
-    "audio/striped_toma.m4a",
-    "audio/striped_wug.m4a",
-    "audio/tall_blicket.m4a",
-    "audio/tall_gade.m4a",
-    "audio/tall_modi.m4a",
-    "audio/tall_sprock.m4a",
-    "audio/tall_toma.m4a",
-    "audio/tall_wug.m4a",
-    "audio/toma_blue_prompt.m4a",
-    "audio/toma_red_prompt.m4a",
-    "audio/toma_spotted_prompt.m4a",
-    "audio/toma_striped_prompt.m4a",
-    "audio/toma_tall_prompt.m4a",
-    "audio/toma_wide_prompt.m4a",
-    "audio/toma.m4a",
-    "audio/wide_blicket.m4a",
-    "audio/wide_gade.m4a",
-    "audio/wide_modi.m4a",
-    "audio/wide_sprock.m4a",
-    "audio/wide_toma.m4a",
-    "audio/wide_wug.m4a",
-    "audio/wug_blue_prompt.m4a",
-    "audio/wug_red_prompt.m4a",
-    "audio/wug_spotted_prompt.m4a",
-    "audio/wug_striped_prompt.m4a",
-    "audio/wug_tall_prompt.m4a",
-    "audio/wug_wide_prompt.m4a"
-];
+    "wug.m4a",
+    "banana_prompt.m4a",
+    "blicket 2.m4a",
+    "blicket_blue_prompt.m4a",
+    "blicket_red_prompt.m4a",
+    "blicket_spotted_prompt.m4a",
+    "blicket_striped_prompt.m4a",
+    "blicket_tall_prompt.m4a",
+    "blicket_wide_prompt.m4a",
+    "blicket.m4a",
+    "blip_prompt.m4a",
+    "blue_blicket.m4a",
+    "blue_gade.m4a",
+    "blue_modi.m4a",
+    "blue_sprock.m4a",
+    "blue_toma.m4a",
+    "blue_wug.m4a",
+    "cookie_prompt.m4a",
+    "gade_blue_prompt.m4a",
+    "gade_red_prompt.m4a",
+    "gade_spotted_prompt.m4a",
+    "gade_striped_prompt.m4a",
+    "gade_tall_prompt.m4a",
+    "gade_wide_prompt.m4a",
+    "gade.m4a",
+    "greeting.m4a",
+    "intro.m4a",
+    "modi_blue_prompt.m4a",
+    "modi_red_prompt.m4a",
+    "modi_spotted_prompt.m4a",
+    "modi_striped_prompt.m4a",
+    "modi_tall_prompt.m4a",
+    "modi_wide_prompt.m4a",
+    "modi.m4a",
+    "red_blicket.m4a",
+    "red_gade.m4a",
+    "red_modi.m4a",
+    "red_sprock.m4a",
+    "red_toma.m4a",
+    "red_wug.m4a",
+    "see1.m4a",
+    "see2.m4a",
+    "spotted_blicket.m4a",
+    "spotted_gade.m4a",
+    "spotted_modi.m4a",
+    "spotted_sprock.m4a",
+    "spotted_toma.m4a",
+    "spotted_wug.m4a",
+    "sprock_blue_prompt.m4a",
+    "sprock_red_prompt.m4a",
+    "sprock_spotted_prompt.m4a",
+    "sprock_striped_prompt.m4a",
+    "sprock_tall_prompt.m4a",
+    "sprock_wide_prompt.m4a",
+    "sprock.m4a",
+    "striped_blicket.m4a",
+    "striped_gade.m4a",
+    "striped_modi.m4a",
+    "striped_sprock.m4a",
+    "striped_toma.m4a",
+    "striped_wug.m4a",
+    "tall_blicket.m4a",
+    "tall_gade.m4a",
+    "tall_modi.m4a",
+    "tall_sprock.m4a",
+    "tall_toma.m4a",
+    "tall_wug.m4a",
+    "toma_blue_prompt.m4a",
+    "toma_red_prompt.m4a",
+    "toma_spotted_prompt.m4a",
+    "toma_striped_prompt.m4a",
+    "toma_tall_prompt.m4a",
+    "toma_wide_prompt.m4a",
+    "toma.m4a",
+    "wide_blicket.m4a",
+    "wide_gade.m4a",
+    "wide_modi.m4a",
+    "wide_sprock.m4a",
+    "wide_toma.m4a",
+    "wide_wug.m4a",
+    "wug_blue_prompt.m4a",
+    "wug_red_prompt.m4a",
+    "wug_spotted_prompt.m4a",
+    "wug_striped_prompt.m4a",
+    "wug_tall_prompt.m4a",
+    "wug_wide_prompt.m4a"
+].map((a) => audio_path + '/' + a)
 
 const attr = [
     { name: "blue", category: "color", index: 0 },
@@ -322,8 +236,8 @@ const attr = [
 ];
 const obj_names = ["gade", "wug", "sprock", "modi", "toma", "blicket"];
 for (let i = 1; i <= 6; i++) {
-    let path = `stim_images/objects/object${i}`;
-    let prop_path = `stim_images/prop_selection/object${i}`;
+    let path = `${img_path}/objects/object${i}`;
+    let prop_path = `${img_path}/prop_selection/object${i}`;
     let obj = [
         [`${path}_not_blue.PNG`, `${path}_blue.PNG`],
         [`${path}_not_red.PNG`, `${path}_red.PNG`],
@@ -347,17 +261,17 @@ for (let i = 1; i <= 6; i++) {
 
 other_resources.push(
     [
-        'stim_images/alien1.png',
-        'stim_images/speechbubble.jpg',
-        "stim_images/prop_selection/banana_few.PNG",
-        "stim_images/prop_selection/banana_some.PNG",
-        "stim_images/prop_selection/banana_most.PNG",
-        "stim_images/prop_selection/banana_almost_all.PNG",
-        "stim_images/prop_selection/cookie_few.PNG",
-        "stim_images/prop_selection/cookie_some.PNG",
-        "stim_images/prop_selection/cookie_most.PNG",
-        "stim_images/prop_selection/cookie_almost_all.PNG",
-    ]
+        'alien1.png',
+        'speechbubble.jpg',
+        "prop_selection/banana_few.PNG",
+        "prop_selection/banana_some.PNG",
+        "prop_selection/banana_most.PNG",
+        "prop_selection/banana_almost_all.PNG",
+        "prop_selection/cookie_few.PNG",
+        "prop_selection/cookie_some.PNG",
+        "prop_selection/cookie_most.PNG",
+        "prop_selection/cookie_almost_all.PNG",
+    ].map((i) => img_path + '/' + i)
 )
 
 console.log(props);
@@ -483,7 +397,7 @@ var finish_screen = {
 const create_select = (imgs, obj_index, attr_index, trial_type) => {
     return {
         type: jsPsychAudioButtonResponse,
-        stimulus: `audio/${obj_names[obj_index]}_${attr[attr_index].name}_prompt.m4a`,
+        stimulus: `${audio_path}/${obj_names[obj_index]}_${attr[attr_index].name}_prompt.m4a`,
         prompt: `<p>Let's think about all of the ${obj_names[obj_index]}s on this planet. How many ${obj_names[obj_index]}s do you think are ${attr[attr_index].name}?</p>`,
         choices: imgs.map((i, index) => {
             return `<img src = "${i}" alt = 'cookie_few responsive' width="200px">`;
@@ -529,9 +443,9 @@ const create_muti_image = (
                     const tran_pass = jsPsych.timelineVariable("tran_pass");
                     const statement_pass = jsPsych.timelineVariable("statement_pass");
                     let transition = `<div class = "grid-container">
-                    <img src="stim_images/alien1.png" class="responsive" alt="Alien Image">
+                    <img src="${img_path}/alien1.png" class="responsive" alt="Alien Image">
                     <div class="image-container responsive fade-in-out">
-                        <img src="stim_images/speechbubble.jpg" alt="Speech Bubble" class="responsive">
+                        <img src="${img_path}/speechbubble.jpg" alt="Speech Bubble" class="responsive">
                         <div class="overlay-text" id="overlay-text">
                             ${tran_pass
                             ? "Let's see what else I have"
@@ -546,9 +460,9 @@ const create_muti_image = (
                     if (trial_type === "n") {
                         // noun
                         statement = `<div class = "grid-container">
-            <img src="stim_images/alien1.png" class="responsive">
+            <img src="${img_path}/alien1.png" class="responsive">
             <div class="image-container responsive fade-in-out">
-                <img src="stim_images/speechbubble.jpg" alt="speech" class="responsive">
+                <img src="${img_path}/speechbubble.jpg" alt="speech" class="responsive">
                 <div class="overlay-text" id="overlay-text">${statement_pass
                                 ? `It's a ${obj_names[obj_index]}`
                                 : `It's a ${obj_names[obj_index]}`
@@ -559,9 +473,9 @@ const create_muti_image = (
                     } else {
                         // adj.
                         statement = `<div class = "grid-container">
-            <img src="stim_images/alien1.png" class="responsive">
+            <img src="${img_path}/alien1.png" class="responsive">
             <div class="image-container responsive fade-in-out">
-                <img src="stim_images/speechbubble.jpg" alt="speech" class="responsive">
+                <img src="${img_path}/speechbubble.jpg" alt="speech" class="responsive">
                 <div class="overlay-text" id="overlay-text">${statement_pass
                                 ? `It's a ${attr_2 === 0 ? "" : attr[attr_index].name} ${obj_names[obj_index]
                                 }`
@@ -581,24 +495,6 @@ const create_muti_image = (
                 },
                 choices: [],
                 trial_duration: 3000,
-                // on_start: function (trial) {
-                //     // console.log('triggered')
-                //     const audio = new Audio(jsPsych.timelineVariable("audio"));
-                //     audio.addEventListener("error", function (event) {
-                //         console.error("Error loading audio file:", event);
-                //     });
-
-                //     //   trial.trial_duration = audio.duration * 10000 + 5000;
-
-                //     audio
-                //         .play()
-                //         .then(() => {
-                //             console.log("Audio is playing");
-                //         })
-                //         .catch((error) => {
-                //             console.error("Error playing audio:", error);
-                //         });
-                // },
             },
         ],
         timeline_variables: frames,
@@ -635,9 +531,6 @@ while (numObj >= 0) {
     let attr_index = curr_attr.index; // index of images
     let attr_img = objs[obj_index][attr_index];
 
-    // console.log(attr_img)
-    // timeline.push(preload_res(attr_img));
-
     // assemble animation
     let rand1 = Math.floor(Math.random() * 2);
     let rand2 = 1 - rand1;
@@ -657,18 +550,18 @@ while (numObj >= 0) {
     let audio1, audio2
     if (trial_type === "adj") {
         adj_trial_set.add(curr_attr.category);
-        audio1 = `${rand1 === 0 ? `audio/${obj_names[obj_index]}.m4a`: `audio/${curr_attr.name}_${obj_names[obj_index]}.m4a`}`
-        audio2 = `${rand2 === 0 ? `audio/${obj_names[obj_index]}.m4a`: `audio/${curr_attr.name}_${obj_names[obj_index]}.m4a`}`
+        audio1 = `${rand1 === 0 ? `${audio_path}/${obj_names[obj_index]}.m4a`: `${audio_path}/${curr_attr.name}_${obj_names[obj_index]}.m4a`}`
+        audio2 = `${rand2 === 0 ? `${audio_path}/${obj_names[obj_index]}.m4a`: `${audio_path}/${curr_attr.name}_${obj_names[obj_index]}.m4a`}`
     } else {
         n_trial_set.add(curr_attr.category);
-        audio1 = `audio/${obj_names[obj_index]}.m4a`
-        audio2 = `audio/${obj_names[obj_index]}.m4a`
+        audio1 = `${audio_path}/${obj_names[obj_index]}.m4a`
+        audio2 = `${audio_path}/${obj_names[obj_index]}.m4a`
     }
 
     let frames = [
         {
             images: [attr_img[rand1]],
-            audio: "audio/see1.m4a",
+            audio: `${audio_path}/see1.m4a`,
             tran_pass: false,
             statement_pass: false,
             show_image: false,
@@ -682,7 +575,7 @@ while (numObj >= 0) {
         },
         {
             images: [attr_img[rand2]],
-            audio: "audio/see2.m4a",
+            audio: `${audio_path}/see2.m4a`,
             tran_pass: true,
             statement_pass: false,
             show_image: false,

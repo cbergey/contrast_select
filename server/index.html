@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="jspsych/dist/jspsych.js"></script>
+    <script src="jspsych/dist/plugin-preload.js"></script>
+    <script src="jspsych/dist/plugin-survey-text.js"></script>
+    <script src="jspsych/dist/plugin-html-button-response.js"></script>
+    <script src="jspsych/dist/plugin-audio-button-response.js"></script>
+    <script src="jspsych/dist/plugin-html-keyboard-response.js"></script>
+    <script src="jspsych/dist/plugin-audio-button-response.js"></script>
+    <script src="jspsych/dist/plugin-audio-button-response-intro.js"></script>
+    <script src="jspsych/dist/plugin-audio-button-response-anime.js"></script>
+    <!-- <link rel="icon" href="stim_images/alien1.png" sizes="16x16" type="image/png"> -->
+    <!-- <script type="module" src = 'experiment.js' defer></script> -->
+    <!-- <script src="image_audio_animate.js"></script> -->
+    <link href="jspsych/dist/jspsych.css" rel="stylesheet" type="text/css" />
+    <!-- <link href="object_experiment/index.css" rel="stylesheet" type="text/css" /> -->
+    <title>Blip Game</title>
+</head>
+
+<body>
+    <!-- <nav id="main-nav">
+        <a href="/" data-navigo>Home</a>
+        <a href="/obj" data-navigo>About</a>
+        <a href="/social" data-navigo>Contact</a>
+    </nav> -->
+    <div id="content">
+        <!-- Content will be loaded here -->
+    </div>
+
+    <script src="https://unpkg.com/navigo"></script>
+    <script>
+        const root = null; // Using null will allow Navigo to use the current domain root
+        const useHash = false; // Disable hash-based routing
+        const router = new Navigo(root, useHash);
+
+        function loadScript(url, callback) {
+            const script = document.createElement('script');
+            script.src = url;
+            script.onload = callback;
+            script.onerror = () => console.error('Error loading script:', url);
+            document.head.appendChild(script);
+        }
+
+        function loadCSS(url, callback) {
+            const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = url;
+
+            link.onload = () => {
+                if (typeof callback === 'function') {
+                    callback();
+                }
+            };
+            link.onerror = () => console.error('Error loading CSS:', url);
+
+            document.head.appendChild(link);
+        }
+
+        function renderHome() {
+            // Create a <nav> element
+            const nav = document.createElement('nav');
+            nav.id = 'main-nav';
+
+            // Create the links
+            const links = [
+                { href: '/', text: 'Home' },
+                { href: '/obj', text: 'Object Game' },
+                { href: '/social', text: 'Social Game' }
+            ];
+
+            // Append links to the <nav> element
+            links.forEach(link => {
+                const a = document.createElement('a');
+                a.href = link.href;
+                a.dataset.navigo = ''; // Set data-navigo attribute
+                a.textContent = link.text;
+                a.style.display = 'block';
+                a.style.fontSize = '20px';
+                a.style.paddingBottom = '10px';
+                nav.appendChild(a);
+            });
+
+            const style = document.createElement('style');
+            style.textContent = `
+                #main-nav {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    height: 100vh; /* Full viewport height */
+                    margin: 0;
+                }
+                #main-nav a {
+                    text-align: center; /* Center text inside each link */
+                }
+            `;
+
+            document.head.appendChild(style);
+
+            // Append the <nav> to the document body or another container
+            document.body.appendChild(nav);
+        }
+
+        router
+            .on({
+                '/': function () {
+                    console.log('Home route matched');
+                    loadScript('scripts/home.js', () => {
+                        renderHome();
+                    });
+                },
+                '/obj': function () {
+                    console.log('Obj Game');
+                    loadScript('../object_experiment/experiment.js', () => {
+                    });
+                    loadCSS('../object_experiment/index.css',()=>{})
+                },
+                '/social': function () {
+                    console.log('Social Game');
+                    loadScript('../social_experiment/experiment.js', () => {
+                        // renderContact();
+                    });
+                    loadCSS('../social_experiment/index.css',()=>{})
+                }
+            })
+            .resolve();
+
+        // Enable link navigation
+        router.updatePageLinks();
+    </script>
+</body>
+
+</html>

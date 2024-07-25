@@ -1,0 +1,113 @@
+.blip .image-container {
+    position: relative;
+    display: inline-block;
+}
+
+.blip .overlay-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* color: white; */
+    font-size: 15px;
+    /* font-weight: bold; */
+}
+
+.responsive {
+    max-width: 100%;
+    height: auto;
+}
+
+@media (min-width: 600px) {
+    .overlay-text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: calc(2vw);
+        line-height: 1.5;
+    }
+}
+
+@media (min-width: 900px) {
+    .overlay-text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: calc(2vw);
+        line-height: 1.5;
+    }
+}
+
+@media (min-width: 1200px) {
+    .overlay-text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 28px;
+        line-height: 1.5;
+    }
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 25% 25% 25% auto;
+    text-align: center;
+    align-items: center;
+}
+
+.blip-intro-grid {
+    margin-left: 10%;
+    width: 80%;
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+    text-align: center;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.blip-container{
+    text-align: center;
+    align-items: center;
+}
+
+
+.stim {
+    max-width: 100%;
+    /* width: 100px; */
+    height: auto;
+}
+
+.fade-in-out {
+    opacity: 1;
+    -webkit-animation: fade 5s linear forwards;
+    animation: fade 5s linear forwards;
+}
+
+@-webkit-keyframes fade {
+
+    0%,
+    100% {
+        opacity: 0;
+    }
+
+    20%,
+    80% {
+        opacity: 1;
+    }
+}
+
+@keyframes fade {
+
+    0%,
+    100% {
+        opacity: 0
+    }
+
+    20%,
+    80% {
+        opacity: 1
+    }
+}
